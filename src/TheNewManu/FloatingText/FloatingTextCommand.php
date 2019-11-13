@@ -132,6 +132,10 @@ class FloatingTextCommand extends Command {
                     $sender->sendMessage(TF::RED . "FloatingText with ID " . TF::YELLOW . $args[1] . TF::RED . " does not exist");
                     return false;
                 }
+                $level = $this->getPlugin()->getServer()->getLevelByName($this->getPlugin()->getFloatingTexts()->getNested("$args[1].level"));
+                $ft = $this->getPlugin()->floatingTexts[$args[1]];
+                $ft->setText("");
+                $level->addParticle($ft);
                 $this->getPlugin()->getFloatingTexts()->remove($args[1]);
                 $this->getPlugin()->getFloatingTexts()->save();
                 unset($this->getPlugin()->floatingTexts[$args[1]]);
