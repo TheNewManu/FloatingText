@@ -10,6 +10,7 @@ Alias: /ft
 
 Permission: ft.command.admin
 
+**SubCommands:**
 - /floatingtext spawn [text:config] {text:textName}
 - /floatingtext edit {id} {text}
 - /floatingtext remove {id}
