@@ -1,19 +1,9 @@
-# Copyright (C) 2019 TheNewManu All rights reserved.
-#
-# This document is the property of TheNewManu.
-# It is considered confidential and proprietary.
-#
-# This document may not be reproduced or transmitted in any form,
-# in whole or in part, without the express written permission of
-# TheNewManu.
-#
-# Contact: @TheNewManu on Telegram 
-
 name: FloatingText
 author: TheNewManu
 version: 1.0.0
 api: 3.0.0
 main: TheNewManu\FloatingText\Main
+description: Add FloatingTexts to your server
 
 permissions:
   ft:
