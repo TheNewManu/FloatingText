@@ -1,17 +1,4 @@
 <?php
-
-/* Copyright (C) 2019 TheNewManu All rights reserved.
- *
- * This document is the property of TheNewManu.
- * It is considered confidential and proprietary.
- *
- * This document may not be reproduced or transmitted in any form,
- * in whole or in part, without the express written permission of
- * TheNewManu.
- *
- * Contact: @TheNewManu on Telegram
- */
-
 declare(strict_types=1);
 
 namespace TheNewManu\FloatingText;
