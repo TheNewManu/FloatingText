@@ -9,3 +9,4 @@ Main Command: /floatingtext or /ft
 - /floatingtext spawn [text:config] {text:textName}
 - /floatingtext edit {id} {text}
 - /floatingtext remove {id}
+- /floatingtext list
