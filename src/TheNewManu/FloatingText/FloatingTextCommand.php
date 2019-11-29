@@ -5,8 +5,10 @@ namespace TheNewManu\FloatingText;
 
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
+use pocketmine\math\Vector3;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\level\particle\FloatingTextParticle;
 use pocketmine\utils\TextFormat as TF;
 
 class FloatingTextCommand extends Command {
@@ -18,7 +20,7 @@ class FloatingTextCommand extends Command {
      * @param Main $plugin
      */
     public function __construct(Main $plugin){
-        parent::__construct("floatingtext", "FloatingText command", "/floatingtext spawn|edit|remove|list", ["ft"]);
+        parent::__construct("floatingtext", "FloatingText command", "/floatingtext spawn|edit|remove|move|list", ["ft"]);
         $this->setPermission("ft.command.admin");
         $this->plugin = $plugin;
     }
@@ -37,7 +39,7 @@ class FloatingTextCommand extends Command {
             return false;
         }
         if(!isset($args[0])) {
-            $sender->sendMessage(TF::WHITE . "Usage: /floatingtext spawn|edit|remove|list");
+            $sender->sendMessage(TF::WHITE . "Usage: /floatingtext spawn|edit|remove|move|list");
             return false;
         }
         switch($args[0]) {
@@ -128,13 +130,38 @@ class FloatingTextCommand extends Command {
                 unset($this->getPlugin()->floatingTexts[$args[1]]);
                 $sender->sendMessage(TF::RED . "You have removed this FloatingText [ID: " . TF::YELLOW . $args[1] . TF::RED . "]");
                 break;
+            case "move":
+                if(!$sender instanceof Player) {
+                    $sender->sendMessage(TF::RED . "You can use this command only in-game");
+                    return false;
+                }
+                if(!isset($args[1])) {
+                    $sender->sendMessage(TF::WHITE . "Usage: /floatingtext move {id}");
+                    return false;
+                }
+                if(!isset($floatingTexts[$args[1]])) {
+                    $sender->sendMessage(TF::RED . "FloatingText with ID " . TF::YELLOW . $args[1] . TF::RED . " does not exist");
+                    return false;
+                }
+                $this->getPlugin()->getFloatingTexts()->setNested("$args[1].x", $sender->getX());
+                $this->getPlugin()->getFloatingTexts()->setNested("$args[1].y", $sender->getY());
+                $this->getPlugin()->getFloatingTexts()->setNested("$args[1].z", $sender->getZ());
+                $this->getPlugin()->getFloatingTexts()->save();
+                $level = $this->getPlugin()->getServer()->getLevelByName($this->getPlugin()->getFloatingTexts()->getNested("$args[1].level"));
+                $ft = $this->getPlugin()->floatingTexts[$args[1]];
+                $ft->setText("");
+                $level->addParticle($ft);
+                unset($this->getPlugin()->floatingTexts[$args[1]]);
+                $this->getPlugin()->floatingTexts[$args[1]] = new FloatingTextParticle(new Vector3($this->getPlugin()->getFloatingTexts()->getNested("$args[1].x"), $this->getPlugin()->getFloatingTexts()->getNested("$args[1].y"), $this->getPlugin()->getFloatingTexts()->getNested("$args[1].z")), "");
+                $sender->sendMessage(TF::RED . "You have moved this FloatingText [ID: " . TF::YELLOW . $args[1] . TF::RED . "]");
+                break;
             case "list":
                 foreach($floatingTexts as $id => $array) {
                     $sender->sendMessage(TF::YELLOW . $id . ")" . TF::RED . " Level: " . TF::WHITE . $array["level"] . TF::BLUE . " | " . TF::RED . "Coords: " . TF::WHITE . round($array["x"], 0) . "|" . round($array["y"], 0) . "|" . round($array["z"], 0));
                 }
                 break;
             default:
-                $sender->sendMessage(TF::WHITE . "Usage: /floatingtext spawn|edit|remove|list");
+                $sender->sendMessage(TF::WHITE . "Usage: /floatingtext spawn|edit|remove|move|list");
                 break;
         }
         return true;
