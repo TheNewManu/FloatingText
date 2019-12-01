@@ -16,3 +16,9 @@ Permission: ft.command.admin
 - /floatingtext move {id}
 - /floatingtext remove {id}
 - /floatingtext list
+
+In the FloatingTexts you can use these tags:
+- {line}
+- {player_name}
+- {player_health} | {player_max_health}
+- {online_players} | {online_max_players}
