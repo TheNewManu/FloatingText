@@ -17,6 +17,8 @@ Permission: ft.command.admin
 - /floatingtext remove {id}
 - /floatingtext list
 
+**Other Info:**
+
 In the FloatingTexts you can use these tags:
 - {line}
 - {player_name}
