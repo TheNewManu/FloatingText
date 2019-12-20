@@ -86,7 +86,7 @@ class FloatingTextCommand extends Command {
                             "y" => $sender->getY(),
                             "z" => $sender->getZ(),
                             "level" => $sender->getLevel()->getFolderName(),
-                            "text" => $texts[$args[2]]
+                            "text" => implode("{line}", $texts[$args[2]])
                         );
                         $this->getPlugin()->getFloatingTexts()->setNested("$id", $info);
                         $this->getPlugin()->getFloatingTexts()->save();
